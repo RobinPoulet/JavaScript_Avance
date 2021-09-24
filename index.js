@@ -50,7 +50,7 @@
 //
 
 
-app.use(express.static('public'));
+
 //
 //
 // app.get('/', (req, res) => {
@@ -77,6 +77,8 @@ const dbMovie = level('my-db', {valueEncoding: 'json'});
 const dbMoviesList = level('my-dbList', {valueEncoding: 'json'});
 const port = 3000;
 
+
+app.use(express.static('public'));
 
 // Middleware
 app.use(express.json());
