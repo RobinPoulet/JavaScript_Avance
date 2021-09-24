@@ -1,4 +1,4 @@
-// const http = require('http');
+const http = require('http');
 // const app = require('./app');
 //
 // const normalizePort = val => {
@@ -68,18 +68,18 @@
 //     console.log(`Example app listening at http://localhost:${port}`)
 // })
 //
-const level = require('level');
+// const level = require('level');
 const express = require('express');
 const app = express();
-const dbMovie = level('my-db', {valueEncoding: 'json'});
-const dbMoviesList = level('my-dbList', {valueEncoding: 'json'});
+// const dbMovie = level('my-db', {valueEncoding: 'json'});
+// const dbMoviesList = level('my-dbList', {valueEncoding: 'json'});
 const port = 3000;
 
 
 app.use(express.static('public'));
 
 app.get('/', (req, res) => {
-    res.json('heloo');
+    res.json({name : "toto"});
 })
 
 // Middleware
