@@ -53,9 +53,7 @@
 
 //
 //
-// app.get('/', (req, res) => {
-//     res.sendFile(__dirname + '/html/hello.html');
-// })
+
 //
 // app.get('/page2', (req, res) => {
 //     res.sendFile(__dirname + '/html/page2.html');
@@ -79,6 +77,10 @@ const port = 3000;
 
 
 app.use(express.static('public'));
+
+app.get('/', (req, res) => {
+    res.json('heloo');
+})
 
 // Middleware
 app.use(express.json());
