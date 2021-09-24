@@ -88,9 +88,13 @@ app.get('/api/movies', (req, res) => {
 });
 
 app.get('/api/movies/:id', async (req, res) => {
-
-    let movie = await dbMovie.get(req.params.id);
-    res.status(200).json(movie);
+    try {
+        let movie = await dbMovie.get(req.params.id);
+        res.status(200).json(movie);
+    } catch (err) {
+        console.log(err);
+        res.status(404).json(err.message);
+    }
 });
 
 app.post('/api/movies', async (req, res) => {
@@ -116,9 +120,13 @@ app.get('/api/moviesLists', (req, res) => {
 });
 
 app.get('/api/moviesLists/:id', async (req, res) => {
-
-    let movieList = await dbMoviesList.get(req.params.id);
-    res.status(200).json(movieList);
+    try {
+        let movieList = await dbMoviesList.get(req.params.id);
+        res.status(200).json(movieList);
+    } catch (error) {
+        console.log(error);
+        res.status(404).end();
+    }
 });
 
 app.post('/api/moviesLists', async (req, res) => {
