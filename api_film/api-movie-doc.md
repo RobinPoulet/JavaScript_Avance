@@ -55,7 +55,7 @@ curl -X POST \
 -H `"Accept: application/json"` \
 -d `'{"id":1,"grade":3,"comment":"blabla"}'`
 
-**JavaScript (@octokit/core.js)**  
+**JavaScript (axios)**  
 `axios.post('https://localhost/api/movies', { 
    id: 1, 
    grade: 3',
