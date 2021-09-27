@@ -4,7 +4,7 @@ This documentation aims to provide all the information you need to work with our
 
 #### Base URL
 
-https://heroku-blabla_a_voir_plus_tard.com/
+https://apimovietest.herokuapp.com/
 
 ### Authenticating requests 
 
@@ -23,12 +23,12 @@ GET `api/movies`
 
 **Shell**  
 curl -X GET \  
--G `"https://localhost/api/movies"` \
+-G `"https://apimovietest.herokuapp.com/api/movies"` \
 -H `"Content-Type: application/json"` \
 -H `"Accept: application/json"`
 
 **JavaScript (axios)**  
-`axios.get('https://localhost/api/movies')`
+`axios.get('https://apimovietest.herokuapp.com/api/movies')`
 
 
 ## Store a new Movie
@@ -38,7 +38,7 @@ POST api/movies
 
 `Body Parameters`  
 `id` *integer*  
-The id of the movie  
+The id of the movie  (must be an ID of Themoviedb)
 
 `grade` *integer*  
 Numbers of stars for grade the movie  
@@ -50,13 +50,13 @@ Comment about the movie
 
 **Shell**  
 curl -X POST \  
--G `"https://localhost/api/movies"` \
+-G `"https://apimovietest.herokuapp.com/api/movies"` \
 -H `"Content-Type: application/json"` \
 -H `"Accept: application/json"` \
 -d `'{"id":1,"grade":3,"comment":"blabla"}'`
 
 **JavaScript (axios)**  
-`axios.post('https://localhost/api/movies', { 
+`axios.post('https://apimovietest.herokuapp.com/api/movies', { 
    id: 1, 
    grade: 3',
    comment: 'blabla'
@@ -77,12 +77,12 @@ The ID of the movie
 
 **Shell**  
 curl -X GET \  
--G `"https://localhost/api/movies/9"` \
+-G `"https://apimovietest.herokuapp.com/api/movies/9"` \
 -H `"Content-Type: application/json"` \
 -H `"Accept: application/json"`
 
 **JavaScript (axios)**  
-`axioq.get('https://localhost/api/movies', {
+`axioq.get('https://apimovietest.herokuapp.com/api/movies', {
   id: 'id'
 })`
 
@@ -107,13 +107,13 @@ Comment about the movie
 
 **Shell**  
 curl -X PUT \  
--G `"https://localhost/api/movies/9"` \
+-G `"https://apimovietest.herokuapp.com/api/movies/9"` \
 -H `"Content-Type: application/json"` \
 -H `"Accept: application/json"` \
 -d `'{"grade":3,"comment":"blabla"}'`
 
-**JavaScript (@octokit/core.js)**  
-`axios.put('https://localhost/api/movies', {
+**JavaScript (axios)**  
+`axios.put('https://apimovietest.herokuapp.com/api/movies', {
     id: 9,
     grade: 3,
     comment: 'blabla'
@@ -132,12 +132,12 @@ The ID of the movie to be removed.
 
 **Shell**  
 curl -X DELETE \  
--G `"https://localhost/api/movies/9"` \
+-G `"https://apimovietest.herokuapp.comt/api/movies/9"` \
 -H `"Content-Type: application/json"` \
 -H `"Accept: application/json"`
 
 **JavaScript (axios)**  
-`axios.delete('https://localhost/api/movies', {
+`axios.delete('https://apimovietest.herokuapp.com/api/movies', {
     id: 9
 })`
 
@@ -155,12 +155,12 @@ GET `api/moviesLists`
 
 **Shell**  
 curl -X GET \  
--G `"https://localhost/api/moviesLists"` \
+-G `"https://apimovietest.herokuapp.com/api/moviesLists"` \
 -H `"Content-Type: application/json"` \
 -H `"Accept: application/json"`
 
 **JavaScript (axios)**  
-`axios.get('https://localhost/api/moviesLists')
+`axios.get('https://apimovietest.herokuapp.com/api/moviesLists')
 `
 
 ## Store a new MoviesList
@@ -175,23 +175,48 @@ The id of the movies list
 `name` *string*   
 The name of the movies list  
 
-`list` *string*  
-A list of movies ID, in a string of characters separate by comas
+*Example request:*
+
+**Shell**  
+curl -X POST \  
+-G `"https://apimovietest.herokuapp.com/api/moviesLists"` \
+-H `"Content-Type: application/json"` \
+-H `"Accept: application/json"` \
+-d `'{"id":1,"name":"toto"}'`
+
+**JavaScript (axios)**  
+`axios.post('https://apimovietest.herokuapp.com/api/moviesLists'), {
+    id: 2,
+    name: "toto",
+})`
+
+
+## Store a movie in a Movie List
+
+**Request** 
+POST `api/moviesLists/{id}/addMovie`
+
+`URL Parameters`
+
+`id` *integer*
+The ID of the movies list
+
+`Body Parameters`
+`list` *string*
+The ID (must be an ID of the Themoviedb) of the film to add to the list
 
 *Example request:*
 
 **Shell**  
 curl -X POST \  
--G `"https://localhost/api/moviesLists"` \
+-G `"https://apimovietest.herokuapp.com/api/moviesLists/9/addMovie"` \
 -H `"Content-Type: application/json"` \
 -H `"Accept: application/json"` \
--d `'{"id":1,"name":"toto","list":"2,3,4,5"}'`
+-d `'{"id":1,"list":"09"}'`
 
 **JavaScript (axios)**  
-`axios.post('https://localhost/api/moviesLists'), {
-    id: 2,
-    name: "toto",
-    list: "2,3,4,5"
+`axioq.get('https://apimovietest.herokuapp.com/api/moviesLists', {
+id: 'id', list: 'movieId'
 })`
 
 ## Display a moviesList
@@ -208,12 +233,12 @@ The ID of the movies list
 
 **Shell**  
 curl -X GET \  
--G `"https://localhost/api/moviesLists/9"` \
+-G `"https://apimovietest.herokuapp.com/api/moviesLists/9"` \
 -H `"Content-Type: application/json"` \
 -H `"Accept: application/json"`
 
 **JavaScript (axios)**  
-`axioq.get('https://localhost/api/moviesLists', {
+`axioq.get('https://apimovietest.herokuapp.com/api/moviesLists', {
     id: 'id'
 })`
 
@@ -238,13 +263,13 @@ The list of movies ID, in a string of characters separate by comas
 
 **Shell**  
 curl -X PUT \  
--G `"https://localhost/api/moviesLists/9"` \
+-G `"https://apimovietest.herokuapp.com/api/moviesLists/9"` \
 -H `"Content-Type: application/json"` \
 -H `"Accept: application/json"` \
 -d `'{"name":"toto","list":"2,3,4"}'`
 
 **JavaScript (axios)**  
-`axios.put('https://localhost/api/moviesLists', {
+`axios.put('https://apimovietest.herokuapp.com/api/moviesLists', {
     id: 9,
     name: 'toto',
     list: '2,3,4'
@@ -263,12 +288,12 @@ The ID of the moviesList to be removed.
 
 **Shell**  
 curl -X DELETE \  
--G `"https://localhost/api/moviesLists/9"` \
+-G `"https://apimovietest.herokuapp.com/api/moviesLists/9"` \
 -H `"Content-Type: application/json"` \
 -H `"Accept: application/json"`
 
 **JavaScript (axios)**  
-`axios.delete('https://localhost/api/moviesLists', {
+`axios.delete('https://apimovietest.herokuapp.com/api/moviesLists', {
     id: 9
 })`
 
