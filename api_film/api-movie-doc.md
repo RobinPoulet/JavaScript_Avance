@@ -194,7 +194,7 @@ curl -X POST \
 ## Store a movie in a Movie List
 
 **Request** 
-POST `api/moviesLists/{id}/addMovie`
+POST `api/moviesLists/addMovie/{id}`
 
 `URL Parameters`
 
@@ -209,13 +209,13 @@ The ID (must be an ID of the Themoviedb) of the film to add to the list
 
 **Shell**  
 curl -X POST \  
--G `"https://apimovietest.herokuapp.com/api/moviesLists/9/addMovie"` \
+-G `"https://apimovietest.herokuapp.com/api/moviesLists/addMovie/9"` \
 -H `"Content-Type: application/json"` \
 -H `"Accept: application/json"` \
 -d `'{"id":1,"list":"09"}'`
 
 **JavaScript (axios)**  
-`axioq.get('https://apimovietest.herokuapp.com/api/moviesLists', {
+`axioq.post('https://apimovietest.herokuapp.com/api/moviesLists/addMovie', {
 id: 'id', list: 'movieId'
 })`
 
