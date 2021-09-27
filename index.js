@@ -130,7 +130,7 @@ app.delete('/api/moviesLists/:idList/:idFilm', async (req, res) => {
         let movieList = await dbMoviesList.get(req.params.idList);
         movieList.film = movieList.film.filter(x => x.id !== req.params.idFilm);
         await dbMoviesList.put(req.params.idList, movieList);
-        res.status(204).json("l'élément " + req.params.idFilm + " a bien été effacé");
+        res.status(204).json("l'élement a bien été effacé");
     } catch (error) {
         res.status(404).json(error.message);
     }
