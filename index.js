@@ -151,6 +151,9 @@ app.put('/api/moviesLists/:id', async (req, res) => {
 
 app.delete('/api/moviesLists/:id', (req, res) => {
     try {
+        if (!req.params.id) {
+            res.status(404).json("Pas d'id!!");
+        }
         dbMoviesList.del(req.params.id);
         res.status(204).json(req.params.id);
     } catch (e) {
