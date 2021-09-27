@@ -1,6 +1,7 @@
 const http = require('http');
 
 const level = require('level');
+const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
 const dbMovie = level('my-db', {valueEncoding: 'json'});
@@ -17,6 +18,9 @@ app.get('/', (req, res) => {
 // Middleware
 app.use(express.json());
 
+// Body parser configuration
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // Routes pour la partie Movie
 // app.get('/api/movies', (req, res) => {
@@ -151,7 +155,9 @@ app.put('/api/moviesLists/:id', async (req, res) => {
 
 app.delete('/api/moviesLists/:id', (req, res) => {
     try {
+
         if (!req.params.id) {
+
             res.status(404).json("Pas d'id!!");
         }
         dbMoviesList.del(req.params.id);
