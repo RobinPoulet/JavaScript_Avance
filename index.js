@@ -67,11 +67,11 @@ const http = require('http');
 //     console.log(`Example app listening at http://localhost:${port}`)
 // })
 //
-const level = require('level');
+// const level = require('level');
 const express = require('express');
 const app = express();
-const dbMovie = level('my-db', {valueEncoding: 'json'});
-const dbMoviesList = level('my-dbList', {valueEncoding: 'json'});
+// const dbMovie = level('my-db', {valueEncoding: 'json'});
+// const dbMoviesList = level('my-dbList', {valueEncoding: 'json'});
 const port = 3000;
 
 
