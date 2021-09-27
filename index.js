@@ -154,7 +154,7 @@ app.delete('/api/moviesLists/:idList/deleteMovie/:idFilm', async (req, res) => {
     try {
         console.log(req.params);
         let movieList = await dbMoviesList.get(req.params.idList);
-        let index = movieList.film.findIndex(x => x.film_id === req.params.idFilm);
+        let index = movieList.film.findIndex(x => x.id === req.params.idFilm);
         console.log(index);
         movieList.film.splice(index, 1);
         await dbMoviesList.put(req.params.idList, movieList);
