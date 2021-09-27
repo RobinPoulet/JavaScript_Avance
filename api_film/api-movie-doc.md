@@ -194,15 +194,15 @@ curl -X POST \
 ## Store a movie in a Movie List
 
 **Request** 
-POST `api/moviesLists/addMovie/{id}`
+POST `api/moviesLists/addMovie/{idList}`
 
 `URL Parameters`
 
-`id` *integer*
+`idList` *integer*
 The ID of the movies list
 
 `Body Parameters`
-`list` *string*
+`id` *string*
 The ID (must be an ID of the Themoviedb) of the film to add to the list
 
 *Example request:*
@@ -212,7 +212,7 @@ curl -X POST \
 -G `"https://apimovietest.herokuapp.com/api/moviesLists/addMovie/9"` \
 -H `"Content-Type: application/json"` \
 -H `"Accept: application/json"` \
--d `'{"id":1,"list":"09"}'`
+-d `'{"idList":1,"id":"09"}'`
 
 **JavaScript (axios)**  
 `axioq.post('https://apimovietest.herokuapp.com/api/moviesLists/addMovie', {
@@ -297,6 +297,29 @@ curl -X DELETE \
     id: 9
 })`
 
+## Remove a specific movie of a MoviesList
+
+DELETE api/moviesLists/{idList}/deleteMovie/{idFilm}
+
+`URL Parameters`  
+`idList` *integer*   
+The ID of the moviesList to be removed.
+
+`idFilm` *string*  
+The ID of the film to be removed of the movie list
+
+*Example request:*
+
+**Shell**  
+curl -X DELETE \  
+-G `"https://apimovietest.herokuapp.com/api/moviesLists/9/deleteMovie/2"` \
+-H `"Content-Type: application/json"` \
+-H `"Accept: application/json"`
+
+**JavaScript (axios)**  
+`axios.delete('https://apimovietest.herokuapp.com/api/moviesLists', {
+idList: 9, idFilm: "2"
+})`
 
 
 

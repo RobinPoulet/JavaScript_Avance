@@ -50,7 +50,6 @@ const http = require('http');
 //
 
 
-
 //
 //
 
@@ -79,7 +78,7 @@ const port = 3000;
 app.use(express.static('public'));
 
 app.get('/', (req, res) => {
-    res.json({name : "toto"});
+    res.json({name: "toto"});
 })
 
 // Middleware
@@ -139,11 +138,32 @@ app.post('/api/moviesLists', async (req, res) => {
     res.status(200).json(req.body);
 });
 
-app.post('/api/moviesList/addMovie/:id', async (req, res) => {
-    await dbMoviesList.put(req.params.id, req.body);
+app.post('/api/moviesLists/addMovie/:id', async (req, res) => {
+    try {
+        let movieList = await dbMoviesList.get(req.params.id);
+        movieList.film.push(req.body);
+        await dbMoviesList.put(req.params.id, movieList);
 
-    res.status(200).json(req.body);
-})
+        res.status(200).json(req.body);
+    } catch (error) {
+        res.status(404).end();
+    }
+});
+
+app.delete('/api/moviesLists/:idList/deleteMovie/:idFilm', async (req, res) => {
+    try {
+        console.log(req.params);
+        let movieList = await dbMoviesList.get(req.params.idList);
+        let index = movieList.film.findIndex(x => x.film_id === req.params.idFilm);
+        console.log(index);
+        movieList.film.splice(index, 1);
+        await dbMoviesList.put(req.params.idList, movieList);
+
+        res.status(200).json(req.body);
+    } catch (error) {
+        res.status(404).end();
+    }
+});
 
 app.put('/api/moviesLists', async (req, res) => {
 
