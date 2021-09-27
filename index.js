@@ -141,6 +141,8 @@ app.post('/api/moviesLists', async (req, res) => {
 
 app.post('/api/moviesList/:id/addMovie', async (req, res) => {
     await dbMoviesList.put(req.params.id, req.body);
+
+    res.status(200).json(req.body);
 })
 
 app.put('/api/moviesLists', async (req, res) => {
