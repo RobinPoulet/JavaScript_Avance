@@ -1,72 +1,5 @@
 const http = require('http');
-// const app = require('./app');
-//
-// const normalizePort = val => {
-//     const port = parseInt(val, 10);
-//
-//     if (isNaN(port)) {
-//         return val;
-//     }
-//     if (port >= 0) {
-//         return port;
-//     }
-//     return false;
-// };
-//
-// const port = normalizePort(process.env.PORT || '3000');
-// app.set('port', port);
-//
-// const errorHandler = error => {
-//     if (error.syscall !== 'listen') {
-//         throw error;
-//     }
-//     const address = server.address();
-//     const bind = typeof address === 'string' ? 'pipe' + address : 'port' + port;
-//     switch (error.code) {
-//         case 'EACCES' :
-//             console.error(bind + ' requires elevated privileges.');
-//             process.exit(1);
-//             break;
-//         case 'EADDRINUSE' :
-//             console.error(bind + ' is already in use.');
-//             process.exit(1);
-//             break;
-//         default:
-//             throw error;
-//     }
-// };
-//
-// const server = http.createServer(app);
-//
-// server.on('error',errorHandler);
-// server.on('listening', () => {
-//     const address = server.address();
-//     const bind = typeof address === 'string' ? 'pipe' + address : 'port' + port;
-//     console.log('listening on' + bind);
-// });
-//
-// server.listen(port);
-//
-//
 
-
-//
-//
-
-//
-// app.get('/page2', (req, res) => {
-//     res.sendFile(__dirname + '/html/page2.html');
-// })
-//
-// app.get('/page/:id', (req, res) => {
-//     console.log(req.params.id);
-//     res.sendFile(__dirname + '/html/page2.html')
-// })
-//
-// app.listen(port, () => {
-//     console.log(`Example app listening at http://localhost:${port}`)
-// })
-//
 const level = require('level');
 const express = require('express');
 const app = express();
@@ -86,9 +19,9 @@ app.use(express.json());
 
 
 // Routes pour la partie Movie
-app.get('/api/movies', (req, res) => {
-    res.status(200).json(movies);
-});
+// app.get('/api/movies', (req, res) => {
+//     res.status(200).json(movies);
+// });
 
 app.get('/api/movies/:id', async (req, res) => {
     try {
@@ -101,26 +34,56 @@ app.get('/api/movies/:id', async (req, res) => {
 });
 
 app.post('/api/movies', async (req, res) => {
-    await dbMovie.put(req.body.id, req.body);
+    let movie = req.body;
+    if (!movie.grade) {
+        movie.grade = null;
+    }
+    if (!movie.comment) {
+        movie.comment = "";
+    }
+    await dbMovie.put(req.body.id, movie);
 
-    res.status(200).json("l'objet suivant a bien été ajouté" + req.body);
+    res.status(200).json("l'objet suivant a bien été ajouté  id du film : " + movie.id);
 });
 
 app.put('/api/movies/:id', async (req, res) => {
-
-    await dbMovie.put(req.body.id, req.body);
-    res.status(200).json(req.body);
+    try {
+        console.log(req.body);
+        console.log(req.params.id);
+        let movie = await dbMovie.get(req.params.id);
+        console.log(movie);
+        if (req.body.grade) {
+            movie.grade = req.body.grade;
+        }
+        if (req.body.comment) {
+            movie.comment = req.body.comment;
+        }
+        if (!movie.grade) {
+            movie.grade = 0;
+        }
+        if (!movie.comment) {
+            movie.comment = "";
+        }
+        await dbMovie.put(req.params.id, movie);
+        res.status(200).json(movie);
+    } catch (e) {
+        res.status(404).json(e.message);
+    }
 });
 
 app.delete('/api/movies/:id', (req, res) => {
-    dbMovie.del(req.params.id);
-    res.status(200).json(req.params.id);
+    try {
+        dbMovie.del(req.params.id);
+        res.status(200).json(req.params.id);
+    } catch (e) {
+        res.status(404).json(e.message);
+    }
 });
 
 // Routes pour la partie Movie List
-app.get('/api/moviesLists', (req, res) => {
-    res.status(200).json(moviesLists);
-});
+// app.get('/api/moviesLists', (req, res) => {
+//     res.status(200).json(moviesLists);
+// });
 
 app.get('/api/moviesLists/:id', async (req, res) => {
     try {
@@ -128,52 +91,71 @@ app.get('/api/moviesLists/:id', async (req, res) => {
         res.status(200).json(movieList);
     } catch (error) {
         console.log(error);
-        res.status(404).end();
+        res.status(404).json(error.message);
     }
 });
 
 app.post('/api/moviesLists', async (req, res) => {
-    await dbMoviesList.put(req.body.id, req.body);
+    try {
+        let movieList = req.body;
+        if (!movieList.name) {
+            movieList.name = "";
+        }
+        if (!movieList.film) {
+            movieList.film = [];
+        }
+        await dbMoviesList.put(req.body.id, req.body);
 
-    res.status(200).json(req.body);
+        res.status(200).json(req.body);
+    } catch (e) {
+        res.status(404).json(e.message);
+    }
 });
 
-app.post('/api/moviesLists/addMovie/:id', async (req, res) => {
+app.post('/api/moviesLists/:id/film', async (req, res) => {
     try {
         let movieList = await dbMoviesList.get(req.params.id);
         movieList.film.push(req.body);
         await dbMoviesList.put(req.params.id, movieList);
 
-        res.status(200).json(req.body);
+        res.status(200).json(movieList);
     } catch (error) {
-        res.status(404).end();
+        res.status(404).json(error.message);
     }
 });
 
-app.delete('/api/moviesLists/:idList/deleteMovie/:idFilm', async (req, res) => {
+app.delete('/api/moviesLists/:idList/:idFilm', async (req, res) => {
     try {
         console.log(req.params);
         let movieList = await dbMoviesList.get(req.params.idList);
-        let index = movieList.film.findIndex(x => x.id === req.params.idFilm);
-        console.log(index);
-        movieList.film.splice(index, 1);
+        movieList.film = movieList.film.filter(x => x.id !== req.params.idFilm);
         await dbMoviesList.put(req.params.idList, movieList);
-
-        res.status(200).json(req.body);
+        res.status(204).json("l'élément " + req.params.idFilm + " a bien été effacé");
     } catch (error) {
-        res.status(404).end();
+        res.status(404).json(error.message);
     }
 });
 
-app.put('/api/moviesLists', async (req, res) => {
-
-    await dbMoviesList.put(req.body.id, req.body);
-    res.status(200).json(req.body);
+app.put('/api/moviesLists/:id', async (req, res) => {
+    try {
+        let movieList = await dbMoviesList.get(req.params.id);
+        if (req.body.name) {
+            movieList.name = req.body.name;
+        }
+        await dbMoviesList.put(req.params.id, movieList);
+        res.status(200).json(movieList);
+    } catch (e) {
+        res.status(404).json(e.message);
+    }
 });
 
 app.delete('/api/moviesLists/:id', (req, res) => {
-    dbMoviesList.del(req.params.id);
-    res.status(200).json(req.params.id);
+    try {
+        dbMoviesList.del(req.params.id);
+        res.status(204).json(req.params.id);
+    } catch (e) {
+        res.status(404).json(e.message);
+    }
 });
 
 app.listen(process.env.PORT || port, () => {
