@@ -161,7 +161,7 @@ app.delete('/api/moviesLists/:id', (req, res) => {
 
         if (!req.params.id) {
 
-            res.status(404).json("Pas d'id!!");
+            res.status(201).json({erreur : "Pas d'id!!"});
         }
         dbMoviesList.del(req.params.id);
         res.status(204).json(req.params.id);
