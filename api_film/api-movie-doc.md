@@ -14,22 +14,6 @@ This API is not authenticated.
 
 APIs for managing movies
 
-### Display a list of Movies 
-
-**Request**  
-GET `api/movies` 
-
-*Example request:*  
-
-**Shell**  
-curl -X GET \  
--G `"https://apimovietest.herokuapp.com/api/movies"` \
--H `"Content-Type: application/json"` \
--H `"Accept: application/json"`
-
-**JavaScript (axios)**  
-`axios.get('https://apimovietest.herokuapp.com/api/movies')`
-
 
 ## Store a new Movie
 
@@ -146,22 +130,6 @@ curl -X DELETE \
 
 APIs for managing list of movies 
 
-## Display a list of MoviesLists  
-
-**Request**  
-GET `api/moviesLists`
-
-*Example request:*
-
-**Shell**  
-curl -X GET \  
--G `"https://apimovietest.herokuapp.com/api/moviesLists"` \
--H `"Content-Type: application/json"` \
--H `"Accept: application/json"`
-
-**JavaScript (axios)**  
-`axios.get('https://apimovietest.herokuapp.com/api/moviesLists')
-`
 
 ## Store a new MoviesList
 
@@ -194,7 +162,7 @@ curl -X POST \
 ## Store a movie in a Movie List
 
 **Request** 
-POST `api/moviesLists/addMovie/{idList}`
+POST `api/moviesLists/{idList}/film`
 
 `URL Parameters`
 
@@ -209,14 +177,14 @@ The ID (must be an ID of the Themoviedb) of the film to add to the list
 
 **Shell**  
 curl -X POST \  
--G `"https://apimovietest.herokuapp.com/api/moviesLists/addMovie/9"` \
+-G `"https://apimovietest.herokuapp.com/api/moviesLists/9/film"` \
 -H `"Content-Type: application/json"` \
 -H `"Accept: application/json"` \
--d `'{"idList":1,"id":"09"}'`
+-d `'{"idList":9,"id":"01"}'`
 
 **JavaScript (axios)**  
 `axioq.post('https://apimovietest.herokuapp.com/api/moviesLists/addMovie', {
-id: 'id', list: 'movieId'
+id: 'id', film: 'movieId'
 })`
 
 ## Display a moviesList
@@ -256,7 +224,7 @@ The ID of the movies list
 `name` *string*  optional  
 The name of the movies list
 
-`list` *string*  optional  
+`film` *string*  optional  
 The list of movies ID, in a string of characters separate by comas
 
 *Example request:*
@@ -299,7 +267,7 @@ curl -X DELETE \
 
 ## Remove a specific movie of a MoviesList
 
-DELETE api/moviesLists/{idList}/deleteMovie/{idFilm}
+DELETE api/moviesLists/{idList}/{idFilm}
 
 `URL Parameters`  
 `idList` *integer*   
@@ -312,7 +280,7 @@ The ID of the film to be removed of the movie list
 
 **Shell**  
 curl -X DELETE \  
--G `"https://apimovietest.herokuapp.com/api/moviesLists/9/deleteMovie/2"` \
+-G `"https://apimovietest.herokuapp.com/api/moviesLists/9/2"` \
 -H `"Content-Type: application/json"` \
 -H `"Accept: application/json"`
 

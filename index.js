@@ -102,6 +102,9 @@ app.get('/api/moviesLists/:id', async (req, res) => {
 app.post('/api/moviesLists', async (req, res) => {
     try {
         let movieList = req.body;
+        if (!movieList.id) {
+            res.status(201).json({erreur : "l'id n'a pas été rentré"});
+        }
         if (!movieList.name) {
             movieList.name = "";
         }
