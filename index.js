@@ -50,6 +50,8 @@ app.get('/api/movies/:id', async (req, res) => {
     }
 });
 
+//comm
+
 app.post('/api/movies', async (req, res) => {
     let movie = req.body;
     if (!movie.grade) {
