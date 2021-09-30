@@ -29,26 +29,24 @@ app.use(function(req, res, next) {
 });
 
 // Routes pour la partie Movie
-// app.get('/api/movies',async (req, res) => {
-//     try {
-//         let result = [];
-//
-//         let stream = dbMovie.createReadStream();
-//         stream.on('data', function (data) {
-//             console.log(data.key);
-//             console.log(data.value);
-//             result.push(data.key);
-//             console.log(keys);
-//             console.log(values);
-//         });
-//
-//         res.status(200).json(result);
-//     } catch (e) {
-//         console.log(e);
-//         res.status(404).json(e.message);
-//     }
-//
-// });
+app.get('/api/movies',async (req, res) => {
+    try {
+        let result = [];
+
+        let stream = dbMovie.createReadStream();
+        stream.on('data', function (data) {
+            console.log(data.key);
+            console.log(data.value);
+
+        });
+
+        res.status(200).json(result);
+    } catch (e) {
+        console.log(e);
+        res.status(404).json(e.message);
+    }
+
+});
 
 app.get('/api/movies/:id', async (req, res) => {
     try {
