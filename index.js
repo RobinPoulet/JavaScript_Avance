@@ -28,10 +28,17 @@ app.use(function(req, res, next) {
         next();
 });
 
-// Routes pour la partie Movie
-// app.get('/api/movies', (req, res) => {
-//     res.status(200).json(movies);
-// });
+Routes pour la partie Movie
+app.get('/api/movies',async (req, res) => {
+    try {
+        let result = await dbMovie.get();
+        res.status(200).json(movies);
+    } catch (e) {
+        console.log(err);
+        res.status(404).json({erreur: erreur sur la requete});
+    }
+
+});
 
 app.get('/api/movies/:id', async (req, res) => {
     try {
