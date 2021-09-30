@@ -28,7 +28,7 @@ app.use(function(req, res, next) {
         next();
 });
 
-Routes pour la partie Movie
+// Routes pour la partie Movie
 app.get('/api/movies',async (req, res) => {
     try {
         let result = await dbMovie.get();
