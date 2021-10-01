@@ -30,7 +30,6 @@ app.use(function (req, res, next) {
 
 app.get('/', (req, res, next) => {
     res.json({name: "toto"});
-    next();
 })
 
 // Middleware
