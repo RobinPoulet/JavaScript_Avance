@@ -28,6 +28,8 @@ app.use(function (req, res, next) {
         next();
 });
 
+
+// fonction pour faire un select * sur une table
 function getAllItems(db) {
     let dataArray = [];
     return new Promise(function (resolve, reject) {
@@ -45,11 +47,12 @@ function getAllItems(db) {
 }
 
 // Routes pour la partie Movie
+
 app.get('/api/movies', async (req, res) => {
     try {
-        let test =  await getAllItems(dbMovie);
-        console.log(test);
-        res.status(200).json(test);
+        let allMovies =  await getAllItems(dbMovie);
+        // console.log(test);
+        res.status(200).json(allMovies);
 
     } catch (e) {
         console.log(e);
@@ -67,8 +70,6 @@ app.get('/api/movies/:id', async (req, res) => {
         res.status(404).json(err.message);
     }
 });
-
-//comm
 
 app.post('/api/movies', async (req, res) => {
     let movie = req.body;
@@ -118,9 +119,18 @@ app.delete('/api/movies/:id', (req, res) => {
 });
 
 // Routes pour la partie Movie List
-// app.get('/api/moviesLists', (req, res) => {
-//     res.status(200).json(moviesLists);
-// });
+
+app.get('/api/moviesLists', async (req, res) => {
+    try {
+        let allMoviesList =  await getAllItems(dbMoviesList);
+        // console.log(test);
+        res.status(200).json(allMoviesList);
+
+    } catch (e) {
+        console.log(e);
+        res.status(404).json(e.message);
+    }
+});
 
 app.get('/api/moviesLists/:id', async (req, res) => {
     try {
