@@ -18,8 +18,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 
-app.use(cors({origin: true, optionsSuccessStatus: 200, credentials: true}));
-app.options('*', cors({origin: true, optionsSuccessStatus: 200, credentials: true}));
+// app.use(cors({origin: true, optionsSuccessStatus: 200, credentials: true}));
+// app.options('*', cors({origin: true, optionsSuccessStatus: 200, credentials: true}));
 
 app.options('*', (req,res) => {
     res.set("Access-Control-Allow-Origin", "*");
