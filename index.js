@@ -1,4 +1,4 @@
-const http = require('http');
+// const http = require('http');
 
 const level = require('level');
 const bodyParser = require('body-parser');
@@ -226,7 +226,7 @@ app.delete('/api/moviesLists/:id', (req, res) => {
     }
 });
 
-app.listen(process.env.PORT, () => {
-    console.log(`Example app listening`);
+app.listen(process.env.PORT || port, () => {
+    console.log(`Example app listening at http://localhost:${port}`);
 });
 
