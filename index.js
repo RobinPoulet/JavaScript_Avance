@@ -19,28 +19,38 @@ app.get('/', (req, res) => {
 app.use(express.json());
 
 // Body parser configuration
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*"),
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept"),
         next();
 });
 
+function getAllItems(db) {
+    let dataArray = [];
+    return new Promise(function (resolve, reject) {
+        db.createReadStream().on('data', function (data) {
+            dataArray.push(data);
+
+        })
+            .on('error', function (err) {
+                reject(err);
+            })
+            .on('close', function () {
+                resolve(dataArray);
+            })
+    })
+}
+
 // Routes pour la partie Movie
-app.get('/api/movies',async (req, res) => {
+app.get('/api/movies', async (req, res) => {
     try {
-        let result = [];
+        let test =  await getAllItems(dbMovie);
+        console.log(test);
+        res.status(200).json(test);
 
-        let stream = dbMovie.createReadStream();
-        stream.on('data', function (data) {
-            console.log(data.key);
-            console.log(data.value);
-
-        });
-
-        res.status(200).json(result);
     } catch (e) {
         console.log(e);
         res.status(404).json(e.message);
@@ -126,7 +136,7 @@ app.post('/api/moviesLists', async (req, res) => {
     try {
         let movieList = req.body;
         if (!movieList.id) {
-            res.status(201).json({erreur : "l'id n'a pas été rentré"});
+            res.status(201).json({erreur: "l'id n'a pas été rentré"});
         }
         if (!movieList.name) {
             movieList.name = "";
@@ -184,7 +194,7 @@ app.delete('/api/moviesLists/:id', (req, res) => {
 
         if (!req.params.id) {
 
-            res.status(201).json({erreur : "Pas d'id!!"});
+            res.status(201).json({erreur: "Pas d'id!!"});
         }
         dbMoviesList.del(req.params.id);
         res.status(204).json(req.params.id);
