@@ -8,11 +8,29 @@ const dbMovie = level('my-db', {valueEncoding: 'json'});
 const dbMoviesList = level('my-dbList', {valueEncoding: 'json'});
 const port = 3000;
 
+const cors = require('cors');
 
-app.use(express.static('public'));
 
-app.get('/', (req, res) => {
+
+// app.use(cors({origin: true, optionsSuccessStatus: 200, credentials: true}));
+// app.options('*', cors({origin: true, optionsSuccessStatus: 200, credentials: true}));
+//
+app.options('*', (req,res) => {
+    res.set("Access-Control-Allow-Origin", "*");
+    res.send("ok");
+})
+
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE ');
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
+
+app.get('/', (req, res, next) => {
     res.json({name: "toto"});
+    next();
 })
 
 // Middleware
@@ -22,17 +40,6 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*"),
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept"),
-        next();
-});
-
-app.put(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*"),
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept"),
-        next();
-});
 
 
 // fonction pour faire un select * sur une table
@@ -56,7 +63,7 @@ function getAllItems(db) {
 
 app.get('/api/movies', async (req, res) => {
     try {
-        let allMovies =  await getAllItems(dbMovie);
+        let allMovies = await getAllItems(dbMovie);
         // console.log(test);
         res.status(200).json(allMovies);
 
@@ -128,7 +135,7 @@ app.delete('/api/movies/:id', (req, res) => {
 
 app.get('/api/moviesLists', async (req, res) => {
     try {
-        let allMoviesList =  await getAllItems(dbMoviesList);
+        let allMoviesList = await getAllItems(dbMoviesList);
         // console.log(test);
         res.status(200).json(allMoviesList);
 
