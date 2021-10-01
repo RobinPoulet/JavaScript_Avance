@@ -8,13 +8,6 @@ const dbMovie = level('my-db', {valueEncoding: 'json'});
 const dbMoviesList = level('my-dbList', {valueEncoding: 'json'});
 const port = 3000;
 
-const cors = require('cors');
-
-
-
-// app.use(cors({origin: true, optionsSuccessStatus: 200, credentials: true}));
-// app.options('*', cors({origin: true, optionsSuccessStatus: 200, credentials: true}));
-//
 app.options('*', (req,res) => {
     res.set("Access-Control-Allow-Origin", "*");
     res.send("ok");
