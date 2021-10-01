@@ -6,10 +6,16 @@ const express = require('express');
 const app = express();
 const dbMovie = level('my-db', {valueEncoding: 'json'});
 const dbMoviesList = level('my-dbList', {valueEncoding: 'json'});
-const port = 3000;
+// const port = 3000;
 
 const cors = require('cors');
 
+// Middleware
+app.use(express.json());
+
+// Body parser configuration
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
 
 app.use(cors({origin: true, optionsSuccessStatus: 200, credentials: true}));
@@ -33,12 +39,6 @@ app.get('/', (req, res, next) => {
     next();
 })
 
-// Middleware
-app.use(express.json());
-
-// Body parser configuration
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
 
 
 
@@ -226,7 +226,7 @@ app.delete('/api/moviesLists/:id', (req, res) => {
     }
 });
 
-app.listen(process.env.PORT || port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+app.listen(process.env.PORT, () => {
+    console.log(`Example app listening`);
 });
 
