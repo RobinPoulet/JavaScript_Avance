@@ -8,7 +8,7 @@ const dbMovie = level('my-db', {valueEncoding: 'json'});
 const dbMoviesList = level('my-dbList', {valueEncoding: 'json'});
 const port = 3000;
 
-const cors = require('cors');
+// const cors = require('cors');
 
 // Middleware
 app.use(express.json());
