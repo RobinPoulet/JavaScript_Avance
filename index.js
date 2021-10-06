@@ -41,8 +41,6 @@ app.get('/', (req, res, next) => {
 })
 
 
-
-
 // fonction pour faire un select * sur une table
 function getAllItems(db) {
     let dataArray = [];
@@ -192,8 +190,8 @@ app.delete('/api/moviesLists/:idList/:idFilm', async (req, res) => {
     try {
         console.log(req.params);
         let movieList = await dbMoviesList.get(req.params.idList);
-         movieList.film.filter(item => item !== req.params.idFilm);
-         dbMoviesList.put(req.params.idList, movieList);
+        movieList.film.filter(item => item !== req.params.idFilm);
+        await dbMoviesList.put(req.params.idList, movieList);
         res.status(204).json("l'élement a bien été effacé");
     } catch (error) {
         res.status(404).json(error.message);
